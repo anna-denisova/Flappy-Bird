@@ -15,8 +15,7 @@ const HEIGHT = 768;
 loadSprite("flappy", "sprites/flappy.png");
 loadSprite("bg", "sprites/bg.png");
 
-//scene main
-scene("main", () =>{
+scene("main", () => {
   const JUMP_FORCE = 800;
   const PIPE_OPEN = 240;
   const PIPE_MIN = 60;
@@ -24,20 +23,20 @@ scene("main", () =>{
   const CEILING = -55;
 
   layers(["bg", "obj", "ui"], "obj");
- 
+
   gravity(3200);
 
   const flappy = add([
     // list of components
     sprite("flappy"),
-    pos(WIDTH/4, 0),
+    pos(WIDTH / 4, 0),
     area(),
     body(),
   ]);
 
   add([
     sprite("bg"),
-    pos(0,0),
+    pos(0, 0),
     layer("bg"),
   ])
 
@@ -46,14 +45,14 @@ scene("main", () =>{
   })
 
   flappy.action(() => {
-    if (flappy.pos.y >= HEIGHT || flappy.pos.y <= CEILING){
+    if (flappy.pos.y >= HEIGHT || flappy.pos.y <= CEILING) {
       go("lose");
     }
   })
 
-  function spawnPipe(){
-    const h1 = rand(PIPE_MIN, HEIGHT - PIPE_MIN - PIPE_OPEN);
-    const h2 = HEIGHT - h1 - PIPE_OPEN;
+  function spawnPipe() {
+    let h1 = rand(PIPE_MIN, HEIGHT - PIPE_MIN - PIPE_OPEN);
+    let h2 = HEIGHT - h1 - PIPE_OPEN;
 
     add([
       pos(WIDTH, 0),
@@ -84,9 +83,8 @@ scene("main", () =>{
   })
 
   flappy.collides("pipe", () => {
-    go("lose"); 
+    go("lose");
   })
-  
 
 })
 
@@ -94,29 +92,33 @@ scene("lose", () => {
 
   add([
     sprite("bg"),
-    pos(0,0),
-
-    add([
-      sprite("flappy"),
-      pos(WIDTH/2, HEIGHT/2 - 100),
-      scale(3),
-      origin("center"),
-    ])
-
+    pos(0, 0),
   ])
 
   add([
-    text("GAME OVER"), 
-    pos(WIDTH/2, HEIGHT/2 + 100),
-    scale(2.5),
-    origin("center")
+    sprite("flappy"),
+    pos(WIDTH / 2, HEIGHT / 2 - 100),
+    scale(3),
+    origin("center"),
   ])
-})
-add([
-  text("Click to play again"),
-  pos(WIDTH/2, HEIGHT/2 + 300),
-  origin("center"),
-])
 
-mouseClick()
-go("main");
+  add([
+    text("GAMEOVER"),
+    pos(WIDTH / 2, HEIGHT / 2 + 100),
+    scale(2.5),
+    origin("center"),
+  ])
+
+  add([
+    text("CLICK TO PLAY AGAIN"),
+    pos(WIDTH / 2, HEIGHT / 2 + 300),
+    origin("center"),
+  ])
+
+  mouseClick(() => {
+    go("main");
+  })
+
+})
+
+go("lose");

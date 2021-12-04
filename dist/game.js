@@ -2769,8 +2769,8 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
       }
     });
     function spawnPipe() {
-      const h1 = rand(PIPE_MIN, HEIGHT - PIPE_MIN - PIPE_OPEN);
-      const h2 = HEIGHT - h1 - PIPE_OPEN;
+      let h1 = rand(PIPE_MIN, HEIGHT - PIPE_MIN - PIPE_OPEN);
+      let h2 = HEIGHT - h1 - PIPE_OPEN;
       add([
         pos(WIDTH, 0),
         rect(64, h1),
@@ -2803,26 +2803,29 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
   scene("lose", () => {
     add([
       sprite("bg"),
-      pos(0, 0),
-      add([
-        sprite("flappy"),
-        pos(WIDTH / 2, HEIGHT / 2 - 100),
-        scale(3),
-        origin("center")
-      ])
+      pos(0, 0)
     ]);
     add([
-      text("GAME OVER"),
+      sprite("flappy"),
+      pos(WIDTH / 2, HEIGHT / 2 - 100),
+      scale(3),
+      origin("center")
+    ]);
+    add([
+      text("GAMEOVER"),
       pos(WIDTH / 2, HEIGHT / 2 + 100),
       scale(2.5),
       origin("center")
     ]);
+    add([
+      text("CLICK TO PLAY AGAIN"),
+      pos(WIDTH / 2, HEIGHT / 2 + 300),
+      origin("center")
+    ]);
+    mouseClick(() => {
+      go("main");
+    });
   });
-  add([
-    text("Click to play again"),
-    pos(WIDTH / 2, HEIGHT / 2 + 300),
-    origin("center")
-  ]);
-  go("main");
+  go("lose");
 })();
 //# sourceMappingURL=game.js.map
